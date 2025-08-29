@@ -6,11 +6,23 @@ import TabButton from './components/TabButton';
 import { CORE_CONCEPTS, EXAMPLES } from './data';
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState();
+  let tabContent = <p>Please, select a topic.</p>;
 
-  let tabContent = 'Click a button';
+  const [selectedTopic, setSelectedTopic] = useState();
   function handleSelect(selectedButton) {
     setSelectedTopic(selectedButton);
+  }
+
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description}</p>
+        <pre>
+          <code>{EXAMPLES[selectedTopic].code}</code>
+        </pre>
+      </div>
+    );
   }
 
   return (
@@ -40,17 +52,7 @@ function App() {
             <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
             <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
           </menu>
-          {selectedTopic ? (
-            <div id="tab-content">
-              <h3>{EXAMPLES[selectedTopic].title}</h3>
-              <p>{EXAMPLES[selectedTopic].description}</p>
-              <pre>
-                <code>{EXAMPLES[selectedTopic].code}</code>
-              </pre>
-            </div>
-          ) : (
-            <p>Please, select a topic.</p>
-          )}
+          {tabContent}
         </section>
       </main>
     </div>
